@@ -1,6 +1,6 @@
 using System;
 
-namespace CasusBlok4.Models
+namespace CasusBlok4.Views.Shared
 {
     public class ErrorViewModel
     {
