@@ -62,9 +62,8 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
 
-- task: AzureWebApp@1
+- task: AzureRmWebAppDeployment@4
   inputs:
-    apptype: 'webApp'
-    azureSubscription: 'ICT Academy Zuyd(8d9ee96d-4dfb-422e-880b-151705e0d558)'
-    appName: 'RuilwinkelVaalsApp'
-    package: $(System.DefaultWorkingDirectory)/**/
+    ConnectionType: 'PublishProfile'
+    PublishProfilePath: '$(System.DefaultWorkingDirectory)/**/*.pubxml'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
