@@ -67,6 +67,5 @@ steps:
     ConnectionType: 'PublishProfile'
     PublishProfilePath: '$(System.DefaultWorkingDirectory)/**/*.pubxml'
     PublishProfilePassword: '5v6noh6ehvwHb25GKrsP9WqAllmh9HoiDrugf4raYrukoKK3nwFfDT3BM2PD'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
 
-- task: PublishBuildArtifacts@1
