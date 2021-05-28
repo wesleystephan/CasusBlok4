@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <None Update="Properties\PublishProfiles\CasusBlok420210526115106 - Web Deploy.pubxml">
-      <IncludeInPackage>false</IncludeInPackage>
+      <IncludeInPackage>true</IncludeInPackage>
     </None>
   </ItemGroup>
 </Project>
