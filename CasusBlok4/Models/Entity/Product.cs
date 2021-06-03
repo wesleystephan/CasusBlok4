@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CasusBlok4.Models
+namespace CasusBlok4.Models.Entity
 {
     public class Product
     {
@@ -12,7 +12,9 @@ namespace CasusBlok4.Models
         public short? PointsWorth { get; set; }
         public int? CategorieId { get; set; }
         public int? SubCategorieId { get; set; }
+
         public virtual Categorie Categorie { get; set; }
         public virtual SubCategorie SubCategorie { get; set; }
+        public virtual ICollection<TransactionProduct> TransactionProducts { get; set; }
     }
 }

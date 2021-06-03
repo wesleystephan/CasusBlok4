@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CasusBlok4
 {
@@ -27,9 +28,7 @@ namespace CasusBlok4
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ITransactionManager, TransactionManager>();
-
-            services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
 
             services.AddDbContext<ProductRegistratieContext>(options =>
             {
@@ -44,6 +43,28 @@ namespace CasusBlok4
                     options.UseSqlServer(connectionString);
                 }
             });
+            services.AddDbContext<DataContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("DataContext");
+
+                if (Environment.IsDevelopment())
+                {
+                    options.UseSqlite(connectionString);
+                }
+                else
+                {
+                    options.UseSqlServer(connectionString);
+                }
+            });
+
+            services.AddScoped<ITransactionManager, TransactionManager>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
+            services.AddControllersWithViews();
+
+            services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +82,8 @@ namespace CasusBlok4
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

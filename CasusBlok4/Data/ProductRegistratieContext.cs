@@ -12,5 +12,5 @@ using CasusBlok4.Models;
         {
         }
 
-        public DbSet<CasusBlok4.Models.Product> Product { get; set; }
+        public DbSet<CasusBlok4.Models.Entity.Product> Product { get; set; }
     }

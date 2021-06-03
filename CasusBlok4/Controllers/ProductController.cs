@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CasusBlok4.Models;
+using Microsoft.AspNetCore.Authorization;
+using CasusBlok4.Models.Entity;
 
 namespace CasusBlok4.Controllers
 {
+    [Authorize(Roles = "employee")]
     public class ProductController : Controller
     {
         private readonly ProductRegistratieContext _context;

@@ -1,5 +1,8 @@
+using CasusBlok4.Services;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,7 +16,14 @@ namespace CasusBlok4
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            IHost host = CreateHostBuilder(args).Build();
+            
+            using (IServiceScope scope = host.Services.CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<DataContext>().Database.Migrate();
+            }
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

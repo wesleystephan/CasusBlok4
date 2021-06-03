@@ -1,0 +1,12 @@
+﻿@model TransactionIndexViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>new transaction</h2>
+<form asp-controller="Transaction" asp-action="IndexPost"></form>
+<div class="form-group">
+    <label for="exampleInputEmail1">Klantnummer</label>
+    <input class="form-control" asp-for="CustomerId" placeholder="Vul nummer in" autofocus>
+    <small class="form-text text-muted">Scan of vul het nummer in</small>
+</div>
