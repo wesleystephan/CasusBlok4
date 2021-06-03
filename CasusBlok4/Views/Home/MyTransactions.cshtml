@@ -1,0 +1,49 @@
+﻿@model IEnumerable<CasusBlok4.Models.Entity.Transaction>
+
+@{
+    ViewData["Title"] = "MyTransactions";
+}
+
+<h1>Mijn transacties</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.Name)
+            </td>
+            <td>
+                @*TODO: Give users the ability to see full transaction*@
+                @*<a asp-action="Details" asp-route-id="@item.TransactionId">Details</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
