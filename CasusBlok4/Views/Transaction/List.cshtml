@@ -1,0 +1,34 @@
+﻿@model TransactionListViewModel
+@{
+    ViewData["Title"] = "ListProduct";
+}
+
+<h1>Producten in transactie</h1>
+<table class="table table-dark table-bordered">
+    <tr>
+        <th>Product</th>
+        <th>Aantal</th>
+        <th>Soort</th>
+        <th>Punten</th>
+        <th>Totaal</th>
+    </tr>
+    @foreach (var product in Model.TransactionProducts)
+    {
+        <tr>
+            <th>@product.Product.Name</th>
+            <td>@product.NumberOfProduct</td>
+            <td>@(product.IsForSell ? "verkoop" : "inkoop")</td>
+            <td>@product.Points</td>
+            <td>@(product.IsForSell ? null : '-')@(product.Points * product.NumberOfProduct)</td>
+        </tr>
+    }
+    <tr>
+        <td colspan="4"></td>
+        <td>@Model.CalculateEndSaldo()</td>
+    </tr>
+</table>
+<form>
+    <button asp-action="AddProduct" asp-controller="Transaction" class="btn btn-info">Voeg product toe</button>
+    <button asp-action="Finish" asp-controller="Transaction" class="btn btn-danger">Rond transactie af</button>
+</form>
+

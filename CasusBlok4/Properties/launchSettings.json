@@ -7,15 +7,15 @@
   //    "sslPort": 44335
   //  }
   //},
-  //"profiles": {
-  //  "IIS Express": {
-  //    "commandName": "IISExpress",
-  //    "launchBrowser": true,
-  //    "environmentVariables": {
-  //      "ASPNETCORE_ENVIRONMENT": "Development",
-  //      "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
-  //    }
-  //  },
+  "profiles": {
+    //"IIS Express": {
+    //  "commandName": "IISExpress",
+    //  "launchBrowser": true,
+    //  "environmentVariables": {
+    //    "ASPNETCORE_ENVIRONMENT": "Development",
+    //    "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+    //  }
+    //},
     "CasusBlok4": {
       "commandName": "Project",
       "launchBrowser": false,

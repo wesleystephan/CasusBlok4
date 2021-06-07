@@ -1,0 +1,10 @@
+insert into Customers (Id, Name, Saldo) values (1, 'smcterrelly0', 5);
+insert into Customers (Id, Name, Saldo) values (2, 'jsmall1', 5);
+insert into Customers (Id, Name, Saldo) values (3, 'enairy2', 5);
+insert into Customers (Id, Name, Saldo) values (4, 'rmohammed3', 5);
+insert into Customers (Id, Name, Saldo) values (5, 'lbrentnall4', 5);
+insert into Customers (Id, Name, Saldo) values (6, 'gchomicz5', 5);
+insert into Customers (Id, Name, Saldo) values (7, 'rbettesworth6', 5);
+insert into Customers (Id, Name, Saldo) values (8, 'aaron7', 5);
+insert into Customers (Id, Name, Saldo) values (9, 'dhallbird8', 5);
+insert into Customers (Id, Name, Saldo) values (10, 'rarzu9', 5);

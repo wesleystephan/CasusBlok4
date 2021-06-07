@@ -23,9 +23,9 @@ namespace CasusBlok4.Services
         {
             _contextAccessor = httpContextAccessor;
             _dataContext = dataContext;
-
+            
             int employeeId = int.Parse(_contextAccessor.HttpContext.User.FindFirst(q => q.Type == ClaimTypes.NameIdentifier).Value);
-            _activeTransaction = new Lazy<Transaction>(dataContext.Transactions.FirstOrDefault(q => q.EmployeeId == employeeId));
+            _activeTransaction = new Lazy<Transaction>(dataContext.Transactions.Include(q=>q.Customer).Include(q=>q.Employee).SingleOrDefault(q => q.EmployeeId == employeeId));
         }
 
         public TransactionProduct AddProductForSellToTransaction(Product product, byte numberOf, short? points) => 
@@ -69,6 +69,7 @@ namespace CasusBlok4.Services
 
             Transaction transaction = new Transaction()
             {
+                TransactionId = Guid.NewGuid().ToString(),
                 EmployeeId = employeeId,
                 CustomerId = customer.Id,
                 StartTime = DateTimeOffset.UtcNow,
@@ -97,6 +98,7 @@ namespace CasusBlok4.Services
                 TransactionId = ActiveTransaction.TransactionId,
             };
             _dataContext.TransactionProducts.Add(transactionProduct);
+            _dataContext.SaveChanges();
 
             return transactionProduct;
         }

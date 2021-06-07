@@ -34,7 +34,7 @@ namespace CasusBlok4.Controllers
             };
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProps);
-            return Json(true);
+            return Json(User.Claims.Select(q => new { q.Type, q.Value }).AsEnumerable());
         }
 
         public async Task<IActionResult> SignOutAsync()

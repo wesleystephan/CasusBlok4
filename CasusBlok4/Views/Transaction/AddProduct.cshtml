@@ -1,7 +1,25 @@
-﻿
+﻿@model TransactionAddProductViewModel
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Voeg producten toe";
 }
 
-<h1>View</h1>
+<h1>Voeg product toe</h1>
+<form asp-action="AddProductPost" asp-controller="Transaction">
+    <select  class="custom-select" asp-items="Model.GetSelectListItems()" asp-for="SelectedProductId"></select>
+    <div class="form-group">
+        <label asp-for="NumberOfProducts">Aantal producten</label>
+        <input class="form-control" asp-for="NumberOfProducts" placeholder="Vul aantal in">
+        <small class="form-text text-muted">Het aantal producten van dit type.</small>
+    </div>
+    <div class="form-group">
+        <label asp-for="Points">Aantal punten</label>
+        <input class="form-control" asp-for="Points" placeholder="Vul waarde in">
+        <small class="form-text text-muted">Het aantal punten per product, laat leeg voor de standaard waard.</small>
+    </div>
+    <div class="custom-control custom-switch">
+        <input asp-for="IsForSell" class="custom-control-input">
+        <label class="custom-control-label" asp-for="IsForSell">Is verkoop</label>
+    </div>
+    <button class="btn btn-info">Voeg product toe</button>
+</form>
 

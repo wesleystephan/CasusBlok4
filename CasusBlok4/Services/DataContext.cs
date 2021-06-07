@@ -11,10 +11,13 @@ namespace CasusBlok4.Services
 {
     public class DataContext : DbContext
     {
+        public virtual DbSet<Categorie> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<SubCategorie> SubCategories { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<TransactionProduct> TransactionProducts { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
