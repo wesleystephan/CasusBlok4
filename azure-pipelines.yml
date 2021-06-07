@@ -27,6 +27,12 @@ steps:
     feedsToUse: 'select'
     vstsFeed: 'my-vsts-feed' # A series of numbers and letters
 
+- task: DockerCompose@0
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    dockerComposeFile: '**/docker compose.yml'
+    action: 'Run a Docker Compose command'
+    
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
