@@ -1,0 +1,50 @@
+﻿@model CasusBlok4.Models.Entity.Transaction
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Transaction <span>@Model.TransactionId</span></h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+    </dl>
+    <table class="table table-bordered">
+        <tr>
+            <th>Product</th>
+            <th>Aantal</th>
+            <th>Soort</th>
+            <th>Punten</th>
+            <th>Totaal</th>
+        </tr>
+        @foreach (var product in Model.TransactionProducts)
+        {
+            <tr>
+                <th>@product.Product.Name</th>
+                <td>@product.NumberOfProduct</td>
+                <td>@(product.IsForSell ? "verkoop" : "inkoop")</td>
+                <td>@product.Points</td>
+                <td>@(product.IsForSell ? '-' : null)@(product.Points * product.NumberOfProduct)</td>
+            </tr>
+        }
+    </table>
+</div>
+<div>
+    <form asp-action="Index" asp-controller="MyTransactions">
+        <button class="btn btn-info">Terug</button>
+    </form>
+</div>

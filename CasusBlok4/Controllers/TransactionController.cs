@@ -25,12 +25,22 @@ namespace CasusBlok4.Controllers
 
         public IActionResult Index()
         {
+            if (_transactionManager.ActiveTransaction != null)
+            {
+                return RedirectToAction("List", "Transaction");
+            }
+
             return View();
         }
 
         [HttpPost]
         public IActionResult IndexPost(TransactionIndexViewModel model)
         {
+            if (_transactionManager.ActiveTransaction != null)
+            {
+                return RedirectToAction("List", "Transaction");
+            }
+
             Customer customer = _dataContext.Customers.Find(model.CustomerId);
 
             if (customer == null)
@@ -44,6 +54,11 @@ namespace CasusBlok4.Controllers
         }
         public IActionResult AddProduct()
         {
+            if (_transactionManager.ActiveTransaction == null)
+            {
+                return RedirectToAction("Index", "Transaction");
+            }
+
             return View(new TransactionAddProductViewModel()
             {
                 Products = _dataContext.Products
@@ -76,21 +91,25 @@ namespace CasusBlok4.Controllers
 
         public IActionResult List()
         {
-            var transProducts = _dataContext.TransactionProducts.Include(q => q.Product).AsEnumerable();
-            return View(new TransactionListViewModel()
+            if (_transactionManager.ActiveTransaction == null)
             {
-                TransactionProducts = transProducts
-            });
+                return RedirectToAction("Index", "Transaction");
+            }
+
+            var transProducts = _dataContext.TransactionProducts.Where(q=>q.Transaction.EmployeeId == _transactionManager.ActiveTransaction.EmployeeId && q.Transaction.EndTime == null).Include(q => q.Product).AsEnumerable();
+            return View(new TransactionListViewModel(transProducts, _transactionManager.ActiveTransaction.Customer.Saldo));
         }
 
         public IActionResult Finish()
         {
-            //if transacion is active complete...
+            if (_transactionManager.ActiveTransaction == null)
+            {
+                return RedirectToAction("Index", "Transaction");
+            }
+
+            _transactionManager.EndTransaction();
+
             return View();
-
-            //else otherwise redirect
-
-
         }
     }
 }

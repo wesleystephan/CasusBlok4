@@ -2,6 +2,7 @@
 using CasusBlok4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -31,12 +32,12 @@ namespace CasusBlok4.Controllers
             return View();
         }
 
-        [Authorize]
-        public IActionResult MyTransactions()
-        {
-            int customerId = int.Parse(User.FindFirst(q => q.Type == ClaimTypes.NameIdentifier).Value);
-            return View(_dataContext.Transactions.Where(q=>q.CustomerId == customerId));
-        }
+        //[Authorize]
+        //public IActionResult MyTransactions()
+        //{
+        //    int customerId = int.Parse(User.FindFirst(q => q.Type == ClaimTypes.NameIdentifier).Value);
+        //    return View(_dataContext.Transactions.Include(q=>q.Customer).Include(q=>q.Employee).Where(q=>q.CustomerId == customerId));
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -19,12 +19,23 @@
             <td>@product.NumberOfProduct</td>
             <td>@(product.IsForSell ? "verkoop" : "inkoop")</td>
             <td>@product.Points</td>
-            <td>@(product.IsForSell ? null : '-')@(product.Points * product.NumberOfProduct)</td>
+            <td>@(product.IsForSell ? '-' : null)@(product.Points * product.NumberOfProduct)</td>
         </tr>
     }
     <tr>
-        <td colspan="4"></td>
-        <td>@Model.CalculateEndSaldo()</td>
+        <td colspan="3"></td>
+        <th>Totaal</th>
+        <td>@Model.EndSaldo</td>
+    </tr>
+    <tr>
+        <td colspan="3"></td>
+        <td>Oude saldo</td>
+        <td>@Model.CurrentCustomerSaldo</td>
+    </tr>
+    <tr>
+        <td colspan="3"></td>
+        <th>Nieuwe saldo</th>
+        <td>@(Model.EndSaldo + Model.CurrentCustomerSaldo)</td>
     </tr>
 </table>
 <form>

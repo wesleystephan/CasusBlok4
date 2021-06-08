@@ -137,7 +137,7 @@ namespace CasusBlok4.Services
 
             builder.Entity<TransactionProduct>(e =>
             {
-                e.HasKey(q => q.TransactionId);
+                e.HasKey(q => new { q.TransactionId, q.ProductId, q.IsForSell });
 
                 e.Property(q => q.TransactionId)
                     .IsRequired();
