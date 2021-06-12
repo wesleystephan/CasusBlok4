@@ -1,4 +1,5 @@
 ﻿using CasusBlok4.Controllers;
+using CasusBlok4.Services;
 using CasusBlok4.Views.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,13 @@ namespace CasusBlok4.Test
 {
     public class HomeControllerTest
     {
+        private readonly DataContext _dataContext;
+
         [Fact]
         public void Index()
         {
             // act
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(_dataContext);
 
             // arrange
             IActionResult result = controller.Index();
@@ -30,7 +33,7 @@ namespace CasusBlok4.Test
         public void Privacy()
         {
             // act
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(_dataContext);
 
             // arrange
             IActionResult result = controller.Privacy();
@@ -43,7 +46,7 @@ namespace CasusBlok4.Test
         public void Error()
         {
             // act
-            HomeController controller = new HomeController
+            HomeController controller = new HomeController(_dataContext)
             {
                 ControllerContext = new ControllerContext()
             };
