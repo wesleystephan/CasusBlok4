@@ -15,11 +15,9 @@ namespace CasusBlok4.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly DataContext _dataContext;
 
-        public HomeController(DataContext dataContext)
+        public HomeController()
         {
-            _dataContext = dataContext;
         }
 
         public IActionResult Index()

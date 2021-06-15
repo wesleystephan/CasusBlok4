@@ -1,7 +1,9 @@
 ﻿using CasusBlok4.Controllers;
+using CasusBlok4.Services;
 using CasusBlok4.Views.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +45,7 @@ namespace CasusBlok4.Test
         public void Error()
         {
             // act
-            HomeController controller = new HomeController
+            HomeController controller = new HomeController()
             {
                 ControllerContext = new ControllerContext()
             };

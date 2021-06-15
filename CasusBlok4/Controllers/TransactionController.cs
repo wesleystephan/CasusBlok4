@@ -41,7 +41,7 @@ namespace CasusBlok4.Controllers
                 return RedirectToAction("List", "Transaction");
             }
 
-            Customer customer = _dataContext.Customers.Find(model.CustomerId);
+            Customer customer = _dataContext.Customers.FirstOrDefault(q=>q.Id == model.CustomerId);
 
             if (customer == null)
             {
@@ -68,7 +68,12 @@ namespace CasusBlok4.Controllers
         [HttpPost]
         public IActionResult AddProductPost(TransactionAddProductViewModel model)
         {
-            Product product = _dataContext.Products.Find(model.SelectedProductId.ToString());
+            if (_transactionManager.ActiveTransaction == null)
+            {
+                return RedirectToAction("Index", "Transaction");
+            }
+
+            Product product = _dataContext.Products.FirstOrDefault(q=>q.Id == model.SelectedProductId.ToString());
             if (product == null)
             {
                 ModelState.AddModelError(nameof(model.SelectedProductId), "Onbekend product");

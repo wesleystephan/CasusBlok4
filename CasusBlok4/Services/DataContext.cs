@@ -24,6 +24,8 @@ namespace CasusBlok4.Services
 
         }
 
+        public DataContext() {}
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             var datetimeConverter = new DateTimeOffsetToBinaryConverter();
