@@ -24,8 +24,6 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    feedsToUse: 'select'
-    vstsFeed: 'my-vsts-feed' # A series of numbers and letters
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -53,15 +51,6 @@ steps:
     targetPath: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'myWebsiteName'
 
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'wesleystephan'
-    scannerMode: 'CLI'
-    configMode: 'file'
-
-- task: SonarCloudAnalyze@1
-
 # do this after you've built your app, near the end of your pipeline in most cases
 # for example, you do this before you deploy to an Azure web app on Windows
 - task: DotNetCoreCLI@2
@@ -77,3 +66,14 @@ steps:
 #     PublishProfilePath: '$(System.DefaultWorkingDirectory)/**/*.pubxml'
 #     PublishProfilePassword: '5v6noh6ehvwHb25GKrsP9WqAllmh9HoiDrugf4raYrukoKK3nwFfDT3BM2PD'
 #     packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'wesleystephan'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'wesleystephan_CasusBlok4'
+    cliSources: '.'
+
+- task: SonarCloudAnalyze@1
