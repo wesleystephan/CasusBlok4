@@ -15,13 +15,12 @@ namespace CasusBlok4.Test
 {
     public class HomeControllerTest
     {
-        private readonly DataContext _dataContext;
 
         [Fact]
         public void Index()
         {
             // act
-            HomeController controller = new HomeController(_dataContext);
+            HomeController controller = new HomeController();
 
             // arrange
             IActionResult result = controller.Index();
@@ -34,7 +33,7 @@ namespace CasusBlok4.Test
         public void Privacy()
         {
             // act
-            HomeController controller = new HomeController(_dataContext);
+            HomeController controller = new HomeController();
 
             // arrange
             IActionResult result = controller.Privacy();
