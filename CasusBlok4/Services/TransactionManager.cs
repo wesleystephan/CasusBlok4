@@ -25,7 +25,7 @@ namespace CasusBlok4.Services
             _dataContext = dataContext;
             
             int employeeId = int.Parse(_contextAccessor.HttpContext.User.FindFirst(q => q.Type == ClaimTypes.NameIdentifier).Value);
-            _activeTransaction = new Lazy<Transaction>(dataContext.Transactions.Include(q=>q.Customer).Include(q=>q.Employee).SingleOrDefault(q => q.EmployeeId == employeeId && q.EndTime == null));
+            _activeTransaction = new Lazy<Transaction>(dataContext.Transactions.Include(q=>q.Customer).SingleOrDefault(q => q.Date == DateTimeOffset.MinValue));
         }
 
         public TransactionProduct AddProductForSellToTransaction(Product product, byte numberOf, short? points) => 
@@ -37,42 +37,39 @@ namespace CasusBlok4.Services
         public void EndTransaction()
         {
             IEnumerable<TransactionProduct> products = _dataContext.TransactionProducts.Where(q => q.TransactionId == ActiveTransaction.TransactionId);
-            Customer customer = _dataContext.Customers.Find(ActiveTransaction.CustomerId);
+            ProfileData customer = _dataContext.ProfileData.Find(ActiveTransaction.ProfileId);
             foreach (TransactionProduct product in products)
             {
                 if (product.IsForSell)
                 {
-                    customer.Saldo += product.Points;
+                    customer.Balans += product.Points;
                 } else
                 {
-                    customer.Saldo -= product.Points;
+                    customer.Balans -= product.Points;
                 }
             }
-            ActiveTransaction.EndTime = DateTimeOffset.UtcNow;
+            ActiveTransaction.Date = DateTimeOffset.UtcNow;
             _dataContext.SaveChanges();
             
         }
 
-        public Transaction StartTransaction(Customer customer)
+        public Transaction StartTransaction(ProfileData customer)
         {
             if (_contextAccessor.HttpContext.User.Identity?.IsAuthenticated != true || !_contextAccessor.HttpContext.User.IsInRole("employee"))
             {
                 throw new SecurityException("Trying to start transaction while not logged in or not having the right permissions");
             }
 
-            int employeeId = int.Parse(_contextAccessor.HttpContext.User.FindFirst(q => q.Type == ClaimTypes.NameIdentifier).Value);
-            if (_dataContext.Transactions.Any(q=>q.EmployeeId == employeeId && q.EndTime == null))
+            if (_dataContext.Transactions.Any(q=>q.Date == DateTimeOffset.MinValue))
             {
                 throw new InvalidOperationException("Cannot start transaction while there is one open");
             }
 
-
             Transaction transaction = new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString(),
-                EmployeeId = employeeId,
-                CustomerId = customer.Id,
-                StartTime = DateTimeOffset.UtcNow,
+                ProfileId = customer.Id,
+                IsDonation = false,
+                IsLoan = false,
             };
             _dataContext.Transactions.Add(transaction);
 
@@ -107,7 +104,7 @@ namespace CasusBlok4.Services
     public interface ITransactionManager
     {
         public Transaction ActiveTransaction { get; }
-        public Transaction StartTransaction(Customer customer);
+        public Transaction StartTransaction(ProfileData customer);
         public TransactionProduct AddProductForSellToTransaction(Product product, byte numberOf, short? points);
         public TransactionProduct AddProductToBuyToTransaction(Product product, byte numberOf, short? points);
         public void EndTransaction();

@@ -7,14 +7,13 @@ namespace CasusBlok4.Models.Entity
 {
     public class Product
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public short? PointsWorth { get; set; }
-        public int? CategorieId { get; set; }
-        public int? SubCategorieId { get; set; }
+        public short PointsWorth { get; set; }
+        public int CategorieId { get; set; }
+        public string SerialNumber { get; set; }
 
-        public virtual Categorie Categorie { get; set; }
-        public virtual SubCategorie SubCategorie { get; set; }
+        public virtual Category Categorie { get; set; }
         public virtual ICollection<TransactionProduct> TransactionProducts { get; set; }
     }
 }

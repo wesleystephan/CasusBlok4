@@ -10,26 +10,26 @@ namespace CasusBlok4.Models
     {
 
 
-        public TransactionListViewModel(IEnumerable<TransactionProduct> transactionProducts, short currentCustomerSaldo)
+        public TransactionListViewModel(IEnumerable<TransactionProduct> transactionProducts, int currentCustomerSaldo)
         {
             CurrentCustomerSaldo = currentCustomerSaldo;
             TransactionProducts = transactionProducts;
-            short saldo = 0;
+            int saldo = 0;
             foreach (var transProduct in transactionProducts)
             {
                 if (transProduct.IsForSell)
                 {
-                    saldo -= (short)(transProduct.Points * transProduct.NumberOfProduct);
+                    saldo -= (transProduct.Points * transProduct.NumberOfProduct);
                 }
                 else
                 {
-                    saldo += (short)(transProduct.Points * transProduct.NumberOfProduct);
+                    saldo += (transProduct.Points * transProduct.NumberOfProduct);
                 }
             }
             EndSaldo = saldo;
         }
         public readonly IEnumerable<TransactionProduct> TransactionProducts;
-        public readonly short EndSaldo;
-        public readonly short CurrentCustomerSaldo;
+        public readonly int EndSaldo;
+        public readonly int CurrentCustomerSaldo;
     }
 }

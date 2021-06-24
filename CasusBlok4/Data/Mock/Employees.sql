@@ -1,1 +1,0 @@
-insert into Employees (Id, Name) values (1, 'Fritz Gerald');

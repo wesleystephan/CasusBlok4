@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace CasusBlok4.Models.Entity
 {
-    public class Categorie
+    public class Category
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<SubCategorie> SubCategories { get; set; }
         public virtual ICollection<Product> Products { get; set; }
     }
 }

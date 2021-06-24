@@ -24,18 +24,15 @@ namespace CasusBlok4.Test
             {
                 new Transaction()
                 {
-                    TransactionId = Guid.NewGuid().ToString(),
-                    StartTime = DateTimeOffset.Now,
-                    CustomerId = 3,
-                    EmployeeId = 1,
+                    TransactionId = 1,
+                    Date = DateTimeOffset.Now,
+                    ProfileId = 3,
                 },
                 new Transaction()
                 {
-                    TransactionId = Guid.NewGuid().ToString(),
-                    StartTime = DateTimeOffset.Now.AddMinutes(-201),
-                    EndTime = DateTimeOffset.Now.AddMinutes(-180),
-                    CustomerId = 4,
-                    EmployeeId = 1,
+                    TransactionId = 2,
+                    Date = DateTimeOffset.Now.AddMinutes(-180),
+                    ProfileId = 4,
                 }
             }.AsQueryable().BuildMockDbSet().Object);
             MyTransactionsController controller = new MyTransactionsController(mock.Object);
@@ -53,7 +50,7 @@ namespace CasusBlok4.Test
         [Fact]
         public async Task Details()
         {
-            string transactionToCheckId = Guid.NewGuid().ToString();
+            int transactionToCheckId = 2;
 
             // act
             Mock<DataContext> mock = new Mock<DataContext>();
@@ -61,18 +58,15 @@ namespace CasusBlok4.Test
             {
                 new Transaction()
                 {
-                    TransactionId = transactionToCheckId,
-                    StartTime = DateTimeOffset.Now,
-                    CustomerId = 3,
-                    EmployeeId = 1,
+                    TransactionId = 1,
+                    Date = DateTimeOffset.Now,
+                    ProfileId = 3,
                 },
                 new Transaction()
                 {
-                    TransactionId = Guid.NewGuid().ToString(),
-                    StartTime = DateTimeOffset.Now.AddMinutes(-201),
-                    EndTime = DateTimeOffset.Now.AddMinutes(-180),
-                    CustomerId = 4,
-                    EmployeeId = 1,
+                    TransactionId = 2,
+                    Date = DateTimeOffset.Now.AddMinutes(-201),
+                    ProfileId = 4,
                 }
             }.AsQueryable().BuildMockDbSet().Object);
             MyTransactionsController controller = new MyTransactionsController(mock.Object);

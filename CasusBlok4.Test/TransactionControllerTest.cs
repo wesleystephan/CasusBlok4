@@ -39,7 +39,7 @@ namespace CasusBlok4.Test
             Mock<ITransactionManager> transactionManagerMock = new Mock<ITransactionManager>();
             transactionManagerMock.SetupGet(q => q.ActiveTransaction).Returns(new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString()
+                TransactionId = 1
             });
             TransactionController controller = new TransactionController(dbMock.Object, transactionManagerMock.Object);
 
@@ -57,7 +57,7 @@ namespace CasusBlok4.Test
             Mock<ITransactionManager> transactionManagerMock = new Mock<ITransactionManager>();
             transactionManagerMock.SetupGet(q => q.ActiveTransaction).Returns(new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString()
+                TransactionId = 1
             });
             TransactionController controller = new TransactionController(dbMock.Object, transactionManagerMock.Object);
 
@@ -72,13 +72,14 @@ namespace CasusBlok4.Test
         public void IndexPostNoActiveTransaction()
         {
             Mock<DataContext> dbMock = new Mock<DataContext>();
-            dbMock.Setup(q => q.Customers).Returns(new []
+            dbMock.Setup(q => q.ProfileData).Returns(new []
             {
-                new Customer()
+                new ProfileData()
                 {
                    Id = 1,
-                   Name = "Noud Wijngaards",
-                   Saldo = 8,
+                   FirstName = "Noud",
+                   LastName = "Wijngaards",
+                   Balans = 8,
                 }
             }.AsQueryable().BuildMockDbSet().Object);
             Mock<ITransactionManager> transactionManagerMock = new Mock<ITransactionManager>();
@@ -91,7 +92,7 @@ namespace CasusBlok4.Test
 
             // assert
             Assert.IsType<RedirectToActionResult>(result);
-            transactionManagerMock.Verify(q => q.StartTransaction(It.IsAny<Customer>()), Times.Once());
+            transactionManagerMock.Verify(q => q.StartTransaction(It.IsAny<ProfileData>()), Times.Once());
         }
 
         [Fact]
@@ -102,19 +103,19 @@ namespace CasusBlok4.Test
             {
                 new Product()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 1,
                     Name = "Poster van Marcel van de Beek",
                     PointsWorth = 7,
                 },
                 new Product()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 2,
                     Name = "Noud zijn t-shirt",
                     PointsWorth = 10,
                 },
                 new Product()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 3,
                     Name = "CD van Nick en Simon",
                     PointsWorth = 1,
                 }
@@ -122,7 +123,7 @@ namespace CasusBlok4.Test
             Mock<ITransactionManager> transactionManagerMock = new Mock<ITransactionManager>();
             transactionManagerMock.SetupGet(q => q.ActiveTransaction).Returns(new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString()
+                TransactionId = 1
             });
             TransactionController controller = new TransactionController(dbMock.Object, transactionManagerMock.Object);
 
@@ -171,19 +172,19 @@ namespace CasusBlok4.Test
             {
                 new Product()
                 {
-                    Id = "12345678",
+                    Id = 1,
                     Name = "Poster van Vincent van der Meer",
                     PointsWorth = 4,
                 },
                 new Product()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 2,
                     Name = "Arne zijn sneakers",
                     PointsWorth = 7,
                 },
                 new Product()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 3,
                     Name = "CD van Rammstein",
                     PointsWorth = 3,
                 }
@@ -192,7 +193,7 @@ namespace CasusBlok4.Test
             Mock<ITransactionManager> transactionManagerMock = new Mock<ITransactionManager>();
             transactionManagerMock.SetupGet(q => q.ActiveTransaction).Returns(new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString()
+                TransactionId = 1
             });
             transactionManagerMock.Setup(q => q.AddProductForSellToTransaction(It.IsAny<Product>(), It.IsAny<byte>(), It.IsAny<short?>()));
             TransactionController controller = new TransactionController(dbMock.Object, transactionManagerMock.Object);
@@ -203,7 +204,7 @@ namespace CasusBlok4.Test
                 IsForSell = true,
                 Points = 3,
                 NumberOfProducts = 1,
-                SelectedProductId = 563465,
+                SelectedProductId = 4,
             });
 
             // assert
@@ -221,20 +222,20 @@ namespace CasusBlok4.Test
             {
                 new Product()
                 {
-                    Id = "12345678",
-                    Name = "Poster van Vincent van der Meer",
+                    Id = 1,
+                    Name = "Poster van Marcel van den Beek",
                     PointsWorth = 4,
                 },
                 new Product()
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = "Arne zijn sneakers",
+                    Id = 2,
+                    Name = "Wesley zijn horloge",
                     PointsWorth = 7,
                 },
                 new Product()
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = "CD van Rammstein",
+                    Id = 2,
+                    Name = "CD van Imagine dDagons",
                     PointsWorth = 3,
                 }
             }.AsQueryable().BuildMockDbSet().Object);
@@ -242,7 +243,7 @@ namespace CasusBlok4.Test
             Mock<ITransactionManager> transactionManagerMock = new Mock<ITransactionManager>();
             transactionManagerMock.SetupGet(q => q.ActiveTransaction).Returns(new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString()
+                TransactionId = 1
             });
             transactionManagerMock.Setup(q => q.AddProductForSellToTransaction(It.IsAny<Product>(), It.IsAny<byte>(), It.IsAny<short?>()));
             TransactionController controller = new TransactionController(dbMock.Object, transactionManagerMock.Object);
@@ -252,7 +253,7 @@ namespace CasusBlok4.Test
                 IsForSell = true,
                 Points = 3,
                 NumberOfProducts = 1,
-                SelectedProductId = 12345678,
+                SelectedProductId = 1,
             });
 
             // assert
@@ -269,19 +270,19 @@ namespace CasusBlok4.Test
             {
                 new Product()
                 {
-                    Id = "12345678",
+                    Id = 1,
                     Name = "Poster van Chris Kockelkorn",
                     PointsWorth = 5,
                 },
                 new Product()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 2,
                     Name = "Damian zijn ketting",
                     PointsWorth = 3,
                 },
                 new Product()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = 3,
                     Name = "CD van Katy Pery",
                     PointsWorth = 1,
                 }
@@ -290,7 +291,7 @@ namespace CasusBlok4.Test
             Mock<ITransactionManager> transactionManagerMock = new Mock<ITransactionManager>();
             transactionManagerMock.SetupGet(q => q.ActiveTransaction).Returns(new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString()
+                TransactionId = 1
             });
             transactionManagerMock.Setup(q => q.AddProductForSellToTransaction(It.IsAny<Product>(), It.IsAny<byte>(), It.IsAny<short?>()));
             TransactionController controller = new TransactionController(dbMock.Object, transactionManagerMock.Object);
@@ -301,7 +302,7 @@ namespace CasusBlok4.Test
                 IsForSell = false,
                 Points = 3,
                 NumberOfProducts = 1,
-                SelectedProductId = 12345678,
+                SelectedProductId = 1,
             });
 
             // assert
@@ -329,10 +330,9 @@ namespace CasusBlok4.Test
         {
             Transaction transaction = new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString(),
-                StartTime = DateTimeOffset.Now,
-                CustomerId = 3,
-                EmployeeId = 40,
+                TransactionId = 1,
+                Date = DateTimeOffset.Now,
+                ProfileId = 3,
             };
 
             Mock<DataContext> dbMock = new Mock<DataContext>();
@@ -342,7 +342,7 @@ namespace CasusBlok4.Test
                 new TransactionProduct()
                 {
                     Points = 3,
-                    ProductId = "2231",
+                    ProductId = 2231,
                     IsForSell = true,
                     NumberOfProduct = 1,
                     TransactionId = transaction.TransactionId,
@@ -351,7 +351,7 @@ namespace CasusBlok4.Test
                 new TransactionProduct()
                 {
                     Points = 4,
-                    ProductId = "2091",
+                    ProductId = 2091,
                     IsForSell = false,
                     NumberOfProduct = 2,
                     TransactionId = transaction.TransactionId,
@@ -362,20 +362,15 @@ namespace CasusBlok4.Test
             Mock<ITransactionManager> transactionManagerMock = new Mock<ITransactionManager>();
             transactionManagerMock.SetupGet(q => q.ActiveTransaction).Returns(new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString(),
-                Customer = new Customer()
+                TransactionId = 1,
+                Customer = new ProfileData()
                 {
                     Id = 1,
-                    Name = "Roel Bindels",
-                    Saldo = 105
+                    FirstName = "Roel",
+                    LastName = "Bindels",
+                    Balans = 105
                 },
-                CustomerId = 1,
-                Employee = new Employee()
-                {
-                    Id = 40, 
-                    Name = "Kees Bekker"
-                },
-                EmployeeId = 40
+                ProfileId = 1
             });
             TransactionController controller = new TransactionController(dbMock.Object, transactionManagerMock.Object);
 
@@ -409,7 +404,7 @@ namespace CasusBlok4.Test
             Mock<ITransactionManager> transactionManagerMock = new Mock<ITransactionManager>();
             transactionManagerMock.SetupGet(q => q.ActiveTransaction).Returns(new Transaction()
             {
-                TransactionId = Guid.NewGuid().ToString()
+                TransactionId = 1
             });
             TransactionController controller = new TransactionController(dbMock.Object, transactionManagerMock.Object);
 

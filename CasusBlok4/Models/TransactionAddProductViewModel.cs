@@ -13,7 +13,7 @@ namespace CasusBlok4.Models
         public IEnumerable<Product> Products;
         public IEnumerable<SelectListItem> GetSelectListItems()
         {
-            return Products?.Select(q => new SelectListItem(q.Name, q.Id)) ?? Array.Empty<SelectListItem>();
+            return Products?.Select(q => new SelectListItem(q.Name, q.Id.ToString())) ?? Array.Empty<SelectListItem>();
         }
 
         [Required]

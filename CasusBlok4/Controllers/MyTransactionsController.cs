@@ -29,12 +29,8 @@ namespace CasusBlok4.Controllers
         }
 
         // GET: MyTransactions/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
             var transaction = await _context.Transactions
                 .Include(t => t.TransactionProducts)

@@ -41,7 +41,7 @@ namespace CasusBlok4.Controllers
                 return RedirectToAction("List", "Transaction");
             }
 
-            Customer customer = _dataContext.Customers.FirstOrDefault(q=>q.Id == model.CustomerId);
+            ProfileData customer = _dataContext.ProfileData.FirstOrDefault(q=>q.Id == model.CustomerId);
 
             if (customer == null)
             {
@@ -73,7 +73,7 @@ namespace CasusBlok4.Controllers
                 return RedirectToAction("Index", "Transaction");
             }
 
-            Product product = _dataContext.Products.FirstOrDefault(q=>q.Id == model.SelectedProductId.ToString());
+            Product product = _dataContext.Products.FirstOrDefault(q=>q.Id == model.SelectedProductId);
             if (product == null)
             {
                 ModelState.AddModelError(nameof(model.SelectedProductId), "Onbekend product");
@@ -101,8 +101,8 @@ namespace CasusBlok4.Controllers
                 return RedirectToAction("Index", "Transaction");
             }
 
-            var transProducts = _dataContext.TransactionProducts.Where(q=>q.Transaction.EmployeeId == _transactionManager.ActiveTransaction.EmployeeId && q.Transaction.EndTime == null).Include(q => q.Product).AsEnumerable();
-            return View(new TransactionListViewModel(transProducts, _transactionManager.ActiveTransaction.Customer.Saldo));
+            var transProducts = _dataContext.TransactionProducts.Where(q=>q.Transaction.TransactionId == _transactionManager.ActiveTransaction.TransactionId).Include(q => q.Product).AsEnumerable();
+            return View(new TransactionListViewModel(transProducts, _transactionManager.ActiveTransaction.Customer.Balans));
         }
 
         public IActionResult Finish()

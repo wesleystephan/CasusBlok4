@@ -11,11 +11,10 @@ namespace CasusBlok4.Services
 {
     public class DataContext : DbContext
     {
-        public virtual DbSet<Categorie> Categories { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<ProfileData> ProfileData { get; set; }
+        public virtual DbSet<ProfileData> Employees { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<SubCategorie> SubCategories { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<TransactionProduct> TransactionProducts { get; set; }
 
@@ -30,128 +29,167 @@ namespace CasusBlok4.Services
         {
             var datetimeConverter = new DateTimeOffsetToBinaryConverter();
 
-            builder.Entity<Categorie>(e =>
+            builder.Entity<Category>(e =>
             {
+                e.ToTable("ArtikelSoorten");
+
                 e.HasKey(q => q.Id);
 
                 e.Property(q => q.Id)
+                    .HasColumnName("ArtikelID")
                     .IsRequired();
                 e.Property(q => q.Name)
+                    .HasColumnName("ArtikelNaam")
                     .HasMaxLength(80)
                     .IsRequired();
             });
 
-            builder.Entity<Customer>(e =>
+            builder.Entity<ProfileData>(e =>
             {
+                e.ToTable("ProfileData");
+
                 e.HasKey(q => q.Id);
 
                 e.Property(q => q.Id)
-                    .HasMaxLength(24)
+                    .HasColumnName("Id")
                     .IsRequired();
-                e.Property(q => q.Name)
-                    .HasMaxLength(80)
+                e.Property(q => q.Email)
+                    .HasColumnName("Email")
+                    .HasMaxLength(50)
+                    .IsRequired(false);
+                e.Property(q => q.FirstName)
+                    .HasColumnName("Voornaam")
+                    .HasMaxLength(50)
+                    .IsRequired(false);
+                e.Property(q => q.LastName)
+                    .HasColumnName("Achternaam")
+                    .HasMaxLength(50)
+                    .IsRequired(false);
+                e.Property(q => q.Balans)
+                    .HasDefaultValue(0)
+                    .HasColumnName("Balans")
                     .IsRequired();
-                e.Property(q => q.Saldo)
-                    .IsRequired();
-            });
+                e.Property(q => q.AccountTypeId)
+                    .HasColumnName("AccountType")
+                    .IsRequired(false);
+                e.Property(q => q.MemberCardId)
+                    .HasColumnName("Ledenpas")
+                    .IsRequired(false);
+                e.Property(q => q.Street)
+                    .HasColumnName("Straat")
+                    .HasMaxLength(50)
+                    .IsRequired(false);
+                e.Property(q => q.HouseNumber)
+                    .HasColumnName("Huisnummer")
+                    .HasMaxLength(10)
+                    .IsRequired(false);
+                e.Property(q => q.City)
+                    .HasColumnName("Woonplaats")
+                    .HasMaxLength(50)
+                    .IsRequired(false);
+                e.Property(q => q.PostalCode)
+                    .HasColumnName("Postcode")
+                    .HasMaxLength(10)
+                    .IsRequired(false);
+                e.Property(q => q.AccountCreated)
+                    .HasColumnName("DateCreated")
+                    .HasConversion(datetimeConverter)
+                    .IsRequired(false);
+                e.Property(q => q.DateOfBirth)
+                    .HasColumnName("Geboortedatum")
+                    .HasConversion(datetimeConverter)
+                    .IsRequired(false);
 
-            builder.Entity<Employee>(e =>
-            {
-                e.HasKey(q => q.Id);
-
-                e.Property(q => q.Id)
-                    .HasMaxLength(24)
-                    .IsRequired();
-                e.Property(q => q.Name)
-                    .HasMaxLength(80)
-                    .IsRequired();
             });
 
             builder.Entity<Product>(e =>
             {
+                e.ToTable("Artikelen");
+
                 e.HasKey(q => q.Id);
 
                 e.Property(q => q.Id)
-                    .HasMaxLength(24)
+                    .HasColumnName("ArtikelID")
                     .IsRequired();
                 e.Property(q => q.Name)
-                    .HasMaxLength(80)
-                    .IsRequired();
+                    .HasColumnName("ArtikelNaam")
+                    .HasMaxLength(50)
+                    .IsRequired(false);
                 e.Property(q => q.PointsWorth)
-                    .IsRequired(false);
+                    .HasColumnName("ArtikelPunten")
+                    .IsRequired();
                 e.Property(q => q.CategorieId)
-                    .IsRequired(false);
-                e.Property(q => q.SubCategorieId)
+                    .HasColumnName("ArtikelSoortID")
+                    .IsRequired();
+                e.Property(q => q.SerialNumber)
+                    .HasColumnName("Serienummer")
+                    .HasMaxLength(50)
                     .IsRequired(false);
 
                 e.HasOne(q => q.Categorie)
                     .WithMany(q => q.Products)
                     .HasForeignKey(q=>q.CategorieId);
 
-                e.HasOne(q => q.SubCategorie)
-                    .WithMany(q => q.Products)
-                    .HasForeignKey(q => q.SubCategorieId);
-            });
-
-            builder.Entity<SubCategorie>(e =>
-            {
-                e.HasKey(q => q.Id);
-
-                e.Property(q => q.Id)
-                    .IsRequired();
-                e.Property(q => q.Name)
-                    .HasMaxLength(80)
-                    .IsRequired();
-                e.Property(q => q.HeadCategorie)
-                    .IsRequired();
-
-                e.HasOne(q => q.Categorie)
-                    .WithMany(q => q.SubCategories)
-                    .HasForeignKey(q => q.HeadCategorie);
             });
 
             builder.Entity<Transaction>(e =>
             {
+                e.ToTable("Transacties");
+
                 e.HasKey(q => q.TransactionId);
 
                 e.Property(q => q.TransactionId)
+                    .HasColumnName("TransactieID")
                     .IsRequired();
-                e.Property(q => q.StartTime)
-                    .HasConversion(datetimeConverter)
+                e.Property(q => q.IsLoan)
+                    .HasColumnName("Lening")
                     .IsRequired();
-                e.Property(q => q.EndTime)
+                e.Property(q => q.Date)
+                    .HasColumnName("Datum")
                     .HasConversion(datetimeConverter)
+                    .HasDefaultValue(DateTimeOffset.MinValue)
+                    .IsRequired();
+                e.Property(q => q.ProfileId)
+                    .HasColumnName("ProfileId")
+                    .IsRequired();
+                e.Property(q => q.IsDonation)
+                    .HasColumnName("Donatie")
+                    .IsRequired();
+                e.Property(q => q.SerialNumber)
+                    .HasColumnName("Serienummer")
+                    .HasDefaultValue(null)
+                    .HasMaxLength(50)
                     .IsRequired(false);
-                e.Property(q => q.CustomerId)
-                    .HasMaxLength(24)
-                    .IsRequired();
-                e.Property(q => q.EmployeeId)
-                    .HasMaxLength(24)
-                    .IsRequired();
 
                 e.HasOne(q => q.Customer)
                     .WithMany(q => q.Transactions)
-                    .HasForeignKey(q => q.CustomerId);
-                e.HasOne(q => q.Employee)
-                    .WithMany(q => q.Transactions)
-                    .HasForeignKey(q => q.EmployeeId);
+                    .HasForeignKey(q => q.ProfileId);
             });
 
             builder.Entity<TransactionProduct>(e =>
             {
-                e.HasKey(q => new { q.TransactionId, q.ProductId, q.IsForSell });
+                e.ToTable("TransactieArtikelen");
+                e.HasKey(q => q.TransactionProductId);
 
                 e.Property(q => q.TransactionId)
+                    .HasColumnName("TransactieID")
                     .IsRequired();
                 e.Property(q => q.ProductId)
+                    .HasColumnName("ArtikelID")
                     .HasMaxLength(24)
                     .IsRequired();
                 e.Property(q => q.IsForSell)
+                    .HasColumnName("IsVerkoop")
                     .HasConversion(new BoolToZeroOneConverter<byte>())
                     .IsRequired();
                 e.Property(q => q.Points)
+                    .HasColumnName("Punten")
                     .IsRequired();
                 e.Property(q => q.NumberOfProduct)
+                    .HasColumnName("Aantal")
+                    .IsRequired();
+                e.Property(q => q.TransactionProductId)
+                    .HasColumnName("TransactieArtikelId")
                     .IsRequired();
 
                 e.HasOne(q => q.Transaction)

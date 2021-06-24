@@ -16,14 +16,14 @@ namespace CasusBlok4.Models.Entity
 
         private ILazyLoader LazyLoader { get; set; }
 
-        public string TransactionId { get; set; }
-        public DateTimeOffset StartTime { get; set; }
-        public DateTimeOffset? EndTime { get; set; }
-        public int CustomerId { get; set; }
-        public int EmployeeId { get; set; }
+        public int TransactionId { get; set; }
+        public DateTimeOffset Date { get; set; }
+        public string SerialNumber { get; set; }
+        public int ProfileId { get; set; }
+        public bool IsDonation { get; set; }
+        public bool IsLoan { get; set; }
 
-        public virtual Customer Customer { get; set; }
-        public virtual Employee Employee { get; set; }
+        public virtual ProfileData Customer { get; set; }
 
         private ICollection<TransactionProduct> _transactionProducts;
         public virtual ICollection<TransactionProduct> TransactionProducts { 

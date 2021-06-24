@@ -30,19 +30,19 @@ namespace CasusBlok4
         {
             services.AddHttpContextAccessor();
 
-            services.AddDbContext<ProductRegistratieContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("ProductRegistratieContext");
+            //services.AddDbContext<ProductRegistratieContext>(options =>
+            //{
+            //    var connectionString = Configuration.GetConnectionString("ProductRegistratieContext");
 
-                if (Environment.IsDevelopment())
-                {
-                    options.UseSqlite(connectionString);
-                }
-                else
-                {
-                    options.UseSqlServer(connectionString);
-                }
-            });
+            //    if (Environment.IsDevelopment())
+            //    {
+            //        options.UseSqlite(connectionString);
+            //    }
+            //    else
+            //    {
+            //        options.UseSqlServer(connectionString);
+            //    }
+            //});
             services.AddDbContext<DataContext>(options =>
             {
                 var connectionString = Configuration.GetConnectionString("DataContext");
